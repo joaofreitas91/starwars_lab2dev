@@ -1,7 +1,59 @@
 body {
-    background-color: azure;
+    background-color: #1a1919;
+    color:#1a1919;
+}
+.hero{
+    text-align: center;
+}
+.title{
+    padding: 10px 0px;
+}
+#inp-txt-search{
+    font-size: 20px;
+    width: 506px;
+    padding: 10px;
+}
+.inp-search{
+    font-size: 20px;
+    padding: 10px;
+}
+.lbl-search{
+    color: #F49A15;
+}
+#result{
+    display: flex;
+    flex-direction: column;
+}
+.card{
+    border: 3px solid #a39f9f;
+    border-radius: 5px;
+    margin: 10px auto;
+    background: #fff;
+    display: flex;
+    min-width: 670px;
 }
 
-h1 {
-    color: blue;
+.card-person{
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    padding: 10px;
+    font-size: 20px;
+    min-width: 308px;
+}
+
+.line{
+    border: 2px solid #a39f9f;
+}
+.curiosity{
+    border: 3px solid #a39f9f;
+    border-radius: 5px;
+    margin: 10px auto;
+    background: #fff;
+    font-size: 20px;
+    padding: 10px;
+    width: 616px;
+}
+#loading{
+    text-align: center;
 }
