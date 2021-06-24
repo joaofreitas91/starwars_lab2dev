@@ -10,7 +10,6 @@ body {
     color: #1a1919;
     padding-bottom: 150px;
 }
-
 .section-one {
     display: flex;
     flex-direction: row;
@@ -27,14 +26,31 @@ body {
 
 #inp-txt-search {
     font-size: 20px;
-    width: 506px;
+    width: 350px;
     padding: 10px;
+    border: 2px solid #a39f9f;
+    margin-bottom: 5px;
+}
+
+#inp-txt-search:focus{
+    border: 2px solid #F49A15;
+    outline: none;
 }
 
 .inp-search {
-    font-size: 20px;
-    padding: 10px;
+    font-size: 18px;
+    padding: 12px 10px 10px 10px;
+    outline: none;
+    border: 2px solid #a39f9f;
+    background-color: #a39f9f;
+    transition: 0.5s ease;
 }
+
+.inp-search:hover{
+    background-color: #F49A15;
+    color: #fff
+}
+
 
 .lbl-search {
     color: #F49A15;

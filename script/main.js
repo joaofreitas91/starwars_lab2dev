@@ -2,6 +2,46 @@ window.onload = () => {
     LoadStarships()
 }
 
+function LoadStarships() {
+    fetch('https://swapi.dev/api/starships/?format=json&page=1')
+        .then(response => response.json())
+        .then(starships => {
+            var soma = 0
+            // console.log("starships ", starships)
+            starships.results.forEach(elementStarships => {
+                let cost = elementStarships.cost_in_credits
+                if (cost == "unknown") {
+                    cost = 0
+                }
+                // console.log("Custo da Nave: " + parseFloat(cost))
+                soma += parseFloat(cost)
+                // console.log("Soma da Nave1: " + soma)
+
+
+            })
+            var pag = Math.ceil(starships.count / 10)
+            for (let i = 2; i <= pag; i++) {
+
+                fetch('https://swapi.dev/api/starships/?format=json&page=' + i)
+                    .then(response => response.json())
+                    .then(starships => {
+                        starships.results.forEach(elementStarships => {
+                            let cost = elementStarships.cost_in_credits
+                            if (cost == "unknown") {
+                                cost = 0
+                            }
+                            // console.log("Custo da Nave: " + parseFloat(cost))
+                            soma += parseFloat(cost)
+                            // console.log("Soma da Nave: " + soma)
+
+                        })
+                    })
+            }
+            console.log("Soma da TOTAL GERAL: " + soma)
+            document.getElementById('totalStarships').innerText = `${soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+        })
+}
+
 function submitForm(e) {
     e.preventDefault()
 
@@ -96,50 +136,11 @@ async function inserirElemento(element) {
             <ul>
                 ${films.map(film => {
         return `<li>${film}</li>`
-    })}
+    }).join('')}
             </ul>
         </div>
     `;
     resultado.append(newElement);
 }
 
-function LoadStarships() {
-    fetch('https://swapi.dev/api/starships/?format=json&page=1')
-        .then(response => response.json())
-        .then(starships => {
-            var soma = 0
-            // console.log("starships ", starships)
-            starships.results.forEach(elementStarships => {
-                let cost = elementStarships.cost_in_credits
-                if (cost == "unknown") {
-                    cost = 0
-                }
-                // console.log("Custo da Nave: " + parseFloat(cost))
-                soma += parseFloat(cost)
-                // console.log("Soma da Nave1: " + soma)
 
-
-            })
-            var pag = Math.ceil(starships.count / 10)
-            for (let i = 2; i <= pag; i++) {
-
-                fetch('https://swapi.dev/api/starships/?format=json&page=' + i)
-                    .then(response => response.json())
-                    .then(starships => {
-                        starships.results.forEach(elementStarships => {
-                            let cost = elementStarships.cost_in_credits
-                            if (cost == "unknown") {
-                                cost = 0
-                            }
-                            // console.log("Custo da Nave: " + parseFloat(cost))
-                            soma += parseFloat(cost)
-                            // console.log("Soma da Nave: " + soma)
-
-                        })
-                    })
-            }
-            console.log("Soma da TOTAL GERAL: " + soma)
-            document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
-            sessionStorage.setItem('starshipsValue', soma)
-        })
-}
