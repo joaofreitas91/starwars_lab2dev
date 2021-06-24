@@ -7,30 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Wars - lab2dev</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&family=Roboto:wght@300;400&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <div class="hero">
-        <img src="assets/logoSW.png" height="200px" class="title" />
-        <form onsubmit="submitForm(event)">
-            <input type="text" id="inp-txt-search" placeholder="Digite um Personagem!" autocomplete="off" />
-            <input type="submit" value="Pesquisar" class="inp-search" />
-        </form>
-    </div>
-
-    <div id="loading" style="display: none;">
-        <img src="assets/loading.gif" />
-    </div>
-    <div id="result">
-    </div>
-    <div class="curiosity" id="curiosity" style="display: none">
-        Curiosidade
-        <p>
-            Se alguém quisesse comprar todas as naves do universo Star Wars, a quantia em créditos que esse ser gastaria, seria de
-            <span id="totalStarships"></span>
-        </p>
-    </div>
-
+    <section class="logo-search">
+        <div class="hero">
+            <img src="assets/logoSW.png" height="150px" class="title" />
+            <form onsubmit="submitForm(event)">
+                <input type="text" id="inp-txt-search" placeholder="Digite um Personagem!" autocomplete="off" onkeypress="clearError()"/>
+                <input type="submit" value="Pesquisar" class="inp-search" />
+                <span id="error">O campo não pode ser vazio, por favor digite um personagem.</span>
+            </form>
+        </div>
+        <div class="content-loading">
+            <img id="loading" style="display: none;" src="assets/loading.png" height="100px" />
+        </div>
+        <div id="result"></div>
+    </section>
+    <footer>
+        <div class="content-footer">
+            <div id="curiosity" style="display: block">
+                Curiosidade !!!
+            </div>
+            <div class="txt-curiosity">
+                Se alguém quisesse comprar todas as naves do universo Star Wars, a quantia em créditos que esse ser
+                gastaria, seria de <span id="totalStarships"></span>
+            </div>
+        </div>
+    </footer>
     <script src="./script/main.js"></script>
 </body>
 

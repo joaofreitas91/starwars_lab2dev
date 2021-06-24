@@ -5,44 +5,44 @@ window.onload = () => {
 function submitForm(e) {
     e.preventDefault()
 
-    let loading = document.getElementById("loading")
-    let curiosity = document.getElementById("curiosity")
-    loading.style.display = "block"
-    curiosity.style.display = "none"
+    let inpTxtSearch = document.getElementById('inp-txt-search').value
+    let inpError = document.getElementById('error')
 
-    // Jogando o valor do SessionStorage no HTML
-    document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+    if (inpTxtSearch == "") {
+        inpError.style.display = 'block'
+    } else {
+        let loading = document.getElementById("loading")
+        // let curiosity = document.getElementById("curiosity")
+        loading.style.display = "block"
+        // curiosity.style.display = "none"
 
-    let inpTxtSearch = document.getElementById("inp-txt-search").value
-    limpar()
+        // Jogando o valor do SessionStorage no HTML
+        // document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
 
-    // fetch(`https://swapi.dev/api/films/?format=json`)
-    //     .then(res => res.json())
-    //     .then(resultFilm => {
-    //         console.log(resultFilm)
-    //         resultFilm.results.forEach(elementFilm => {
-
-    //         });
-    //     })
+        limpar()
 
 
+        // consulta de dados na API - primeira promisse
+        fetch(`https://swapi.dev/api/people/?search=${inpTxtSearch}&format=json`)
+            // segunda promisse
+            .then(res => res.json())
+            .then(result => {
+                console.log(result)
 
-    // consulta de dados na API - primeira promisse
-    fetch(`https://swapi.dev/api/people/?search=${inpTxtSearch}&format=json`)
-        // segunda promisse
-        .then(res => res.json())
-        .then(result => {
-            console.log(result)
+                loading.style.display = "none"
+                curiosity.style.display = "block"
 
-            loading.style.display = "none"
-            curiosity.style.display = "block"
+                //retorno
+                result.results.forEach(element => {
+                    inserirElemento(element)
+                });
+            })
 
-            //retorno
-            result.results.forEach(element => {
-                inserirElemento(element)
-            });
-        })
+    }
+}
 
+function clearError(){
+    document.getElementById('error').style.display = 'none'
 }
 
 function limpar() {
@@ -91,13 +91,12 @@ async function inserirElemento(element) {
             <span><b>Peso:</b> ${element.mass} Kg</span>
             <span><b>Planeta Natal:</b> ${planet}</span>
         </div>
-        <div class="line"></div>
-        <div class="card-person">
+        <div class="card-film">
             <span><b>Filmes:</b></span>
             <ul>
                 ${films.map(film => {
-                    return `<li>${film}</li>`
-                })}
+        return `<li>${film}</li>`
+    })}
             </ul>
         </div>
     `;
@@ -109,15 +108,15 @@ function LoadStarships() {
         .then(response => response.json())
         .then(starships => {
             var soma = 0
-            console.log("starships ", starships)
+            // console.log("starships ", starships)
             starships.results.forEach(elementStarships => {
                 let cost = elementStarships.cost_in_credits
                 if (cost == "unknown") {
                     cost = 0
                 }
-                console.log("Custo da Nave: " + parseFloat(cost))
+                // console.log("Custo da Nave: " + parseFloat(cost))
                 soma += parseFloat(cost)
-                console.log("Soma da Nave1: " + soma)
+                // console.log("Soma da Nave1: " + soma)
 
 
             })
@@ -132,15 +131,15 @@ function LoadStarships() {
                             if (cost == "unknown") {
                                 cost = 0
                             }
-                            console.log("Custo da Nave: " + parseFloat(cost))
+                            // console.log("Custo da Nave: " + parseFloat(cost))
                             soma += parseFloat(cost)
-                            console.log("Soma da Nave: " + soma)
+                            // console.log("Soma da Nave: " + soma)
 
                         })
-                        console.log("Soma da TOTAL GERAL: " + soma)
                     })
             }
+            // console.log("Soma da TOTAL GERAL: " + soma)
             document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
-            sessionStorage.setItem('starshipsValue', soma)
+            // sessionStorage.setItem('starshipsValue', soma)
         })
 }

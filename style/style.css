@@ -1,59 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
     background-color: #1a1919;
-    color:#1a1919;
+    color: #1a1919;
+    padding-bottom: 150px;
 }
-.hero{
+
+.section-one {
+    display: flex;
+    flex-direction: row;
+}
+
+.hero {
     text-align: center;
+    margin-bottom: 15px;
 }
-.title{
+
+.title {
     padding: 10px 0px;
 }
-#inp-txt-search{
+
+#inp-txt-search {
     font-size: 20px;
     width: 506px;
     padding: 10px;
 }
-.inp-search{
+
+.inp-search {
     font-size: 20px;
     padding: 10px;
 }
-.lbl-search{
+
+.lbl-search {
     color: #F49A15;
 }
-#result{
-    display: flex;
-    flex-direction: column;
-}
-.card{
-    border: 3px solid #a39f9f;
-    border-radius: 5px;
-    margin: 10px auto;
-    background: #fff;
-    display: flex;
-    min-width: 670px;
+
+#error{
+    display: none;
+    color: red;
+    font-style: italic;
+    font-weight: 100;
+    text-align: center;
+    margin-top: 5px;
 }
 
-.card-person{
+#result {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 3px solid #a39f9f;
+    border-radius: 5px;
+    margin: auto;
+    margin: 10px;
+    background: #fff;
+    /* min-width: 350px; */
+}
+
+.card-person {
     display: flex;
     flex-direction: column;
     white-space: nowrap;
     padding: 10px;
     font-size: 20px;
-    min-width: 308px;
+    border-bottom: 4px solid #a39f9f;
+    min-width: 350px;
 }
 
-.line{
+.card-film {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.line {
     border: 2px solid #a39f9f;
 }
-.curiosity{
-    border: 3px solid #a39f9f;
-    border-radius: 5px;
-    margin: 10px auto;
-    background: #fff;
-    font-size: 20px;
-    padding: 10px;
-    width: 616px;
+
+footer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #a39f9f;
+    color: #1a1919;
+    border-top: 3px solid #332f2f;
+    z-index: 1;
 }
-#loading{
+
+.container-footer {
+    max-width: 600px;
+}
+
+#curiosity {
+    font-family: 'Orbitron', 'sans-serif';
+    font-size: 1rem;
     text-align: center;
+    padding: 10px 0;
+    text-transform: uppercase;
+}
+
+.txt-curiosity {
+    font-size: 1rem;
+    text-align: center;
+    padding: 0 15px 15px 15px;
+}
+
+#totalStarships {
+    font-weight: 800;
+}
+
+.content-loading {
+    display: flex;
+    justify-content: center;
+}
+
+#loading {
+    animation: loading 1.9s infinite;
+}
+
+@keyframes loading {
+    to {
+        transform: rotate(360deg);
+    }
 }
