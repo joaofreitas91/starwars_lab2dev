@@ -1,3 +1,7 @@
+window.onload = () => {
+    LoadStarships()
+}
+
 function submitForm(e) {
     e.preventDefault()
 
@@ -6,23 +10,20 @@ function submitForm(e) {
     loading.style.display = "block"
     curiosity.style.display = "none"
 
-    if (sessionStorage.getItem('starshipsValue') === null) {
-        LoadStarships()
-    } else {
-        document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
-    }
+    // Jogando o valor do SessionStorage no HTML
+    document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
 
     let inpTxtSearch = document.getElementById("inp-txt-search").value
     limpar()
 
-    fetch(`https://swapi.dev/api/films/?format=json`)
-        .then(res => res.json())
-        .then(resultFilm => {
-            console.log(resultFilm)
-            resultFilm.results.forEach(elementFilm => {
+    // fetch(`https://swapi.dev/api/films/?format=json`)
+    //     .then(res => res.json())
+    //     .then(resultFilm => {
+    //         console.log(resultFilm)
+    //         resultFilm.results.forEach(elementFilm => {
 
-            });
-        })
+    //         });
+    //     })
 
 
 
@@ -53,14 +54,32 @@ function limpar() {
     resultado.innerHTML = ""
 }
 
-// function buscar() {
-//     // Pegando o planeta natal
-//     var planetaNatal = document.getElementById('planetaNatal')
-        // await fetch(element.homeworld)
-        //     .then(res => res.json())
-        //     .then(result => planetaNatal = result.name)
-// }
-function inserirElemento(element, elementFilm) {
+async function buscarPlaneta(url) {
+    // Pegando o planeta natal
+    var planetaNatal = document.getElementById('planetaNatal')
+    await fetch(url)
+        .then(res => res.json())
+        .then(result => planetaNatal = result.name)
+    return planetaNatal
+}
+
+async function buscarFilme(array) {
+    var namesFilms = [];
+    for (let item of array) {
+        await fetch(item)
+            .then(res => res.json())
+            .then(result => {
+                namesFilms.push(result.title)
+            })
+    }
+    return namesFilms
+}
+
+async function inserirElemento(element) {
+    // Buscando planeta NATAL
+    var planet = await buscarPlaneta(element.homeworld)
+    var films = await buscarFilme(element.films)
+    console.warn(films)
     // container principal para os resultados
     let resultado = document.getElementById("result")
     const newElement = document.createElement('div');
@@ -70,20 +89,19 @@ function inserirElemento(element, elementFilm) {
             <span><b>Nome Completo:</b> ${element.name}</span>
             <span><b>Altura:</b> ${element.height} cm</span>
             <span><b>Peso:</b> ${element.mass} Kg</span>
-            <span><b>Planeta Natal:</b><span id="planetaNatal"></span></span>
+            <span><b>Planeta Natal:</b> ${planet}</span>
         </div>
         <div class="line"></div>
         <div class="card-person">
             <span><b>Filmes:</b></span>
-            <span></span>
-            <span>The Empire Strikes Back</span>
-            <span>Return Of The Jedi</span>
-            <span>Revenge of The Sith</span>
+            <ul>
+                ${films.map(film => {
+                    return `<li>${film}</li>`
+                })}
+            </ul>
         </div>
     `;
     resultado.append(newElement);
-
-
 }
 
 function LoadStarships() {
