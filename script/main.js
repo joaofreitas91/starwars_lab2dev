@@ -138,8 +138,8 @@ function LoadStarships() {
                         })
                     })
             }
-            // console.log("Soma da TOTAL GERAL: " + soma)
+            console.log("Soma da TOTAL GERAL: " + soma)
             document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
-            // sessionStorage.setItem('starshipsValue', soma)
+            sessionStorage.setItem('starshipsValue', soma)
         })
 }
