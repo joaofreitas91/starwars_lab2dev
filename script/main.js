@@ -140,7 +140,7 @@ async function insertElement(element) {
     // Substituir dados dentro da div
     newElement.innerHTML = `
         <div class="card-person">
-            <span class="line-title-person"><b>Nome do Maluco:</b></span>
+            <span class="line-title-person"><b>Nome do Personagem:</b></span>
             <span><b>Nome Completo:</b> ${element.name}</span>
             <span><b>Altura:</b> ${element.height} cm</span>
             <span><b>Peso:</b> ${element.mass} Kg</span>
