@@ -98,11 +98,11 @@ body {
     align-items: center;
     font-size: 20px;
     white-space: nowrap;
-    padding: 10px;
-    border-bottom: 4px solid #a39f9f;
+    border-bottom: 3px solid #fab90a;
     min-width: 350px;
     background-color: #2b2424;
     color: #fab90a;
+    padding-bottom: 10px;
 }
 
 .line-title-person{
@@ -110,8 +110,9 @@ body {
     justify-content: center;
     width: 100%;
     border-bottom: 3px solid #fab90a;
-    padding-bottom: 5px;
+    padding: 10px;
     margin-bottom: 10px;
+
 }
 
 .card-film {
@@ -120,11 +121,11 @@ body {
     align-items: center;
     font-size: 20px;
     white-space: nowrap;
-    padding: 10px;
     min-width: 350px;
     height: 100%;
     background-color: #a39f9f;
     color: #1a1919;
+    padding-bottom: 10px;
 
 }
 
@@ -132,8 +133,8 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
-    border-bottom: 3px solid #1a1919;
-    padding-bottom: 5px;
+    border-bottom: 3px solid #2b2424;
+    padding: 10px;
     margin-bottom: 10px;
 }
 

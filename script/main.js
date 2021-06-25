@@ -164,7 +164,7 @@ async function insertElement(element) {
 async function searchPlanet(url) {
 
     // Pegando o planeta natal
-    // var planetaNatal = document.getElementById('planetaNatal')
+    var homeWorld = ""
     await fetch(url)
         .then(res => res.json())
         .then(result => homeWorld = result.name)
