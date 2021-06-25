@@ -1,13 +1,22 @@
-window.onload = () => {
-    LoadStarships()
-}
+const loading = document.getElementById("loading")
+const spanError = document.getElementById("error")
 
-function LoadStarships() {
+
+//Alternativa a função abaixo, loading.addEventListener('click', LoadStarships());
+
+// Referenciadndo a função LoadStarships para trazer os dados ao carregar a pagina
+window.onload = loadingStarships
+
+
+// função para buscar naves e trazar o total em R$
+function loadingStarships() {
+
+    //fetch para trazer a primeira página de naves
     fetch('https://swapi.dev/api/starships/?format=json&page=1')
         .then(response => response.json())
         .then(starships => {
             var soma = 0
-            // console.log("starships ", starships)
+            // console.log("starships fetch-one ", starships)
             starships.results.forEach(elementStarships => {
                 let cost = elementStarships.cost_in_credits
                 if (cost == "unknown") {
@@ -19,9 +28,11 @@ function LoadStarships() {
 
 
             })
+            //looping para percorrer as demais páginas das naves, inciando no contador 2
             var pag = Math.ceil(starships.count / 10)
             for (let i = 2; i <= pag; i++) {
-
+                ////segundo fetch para trazer as demais paginas das naves
+                // ESSE FOR FEITO PARA SE CASO A API RECEBA MAIS DADOS PERCORRER AS PAGINAS
                 fetch('https://swapi.dev/api/starships/?format=json&page=' + i)
                     .then(response => response.json())
                     .then(starships => {
@@ -32,98 +43,99 @@ function LoadStarships() {
                             }
                             // console.log("Custo da Nave: " + parseFloat(cost))
                             soma += parseFloat(cost)
-                            // console.log("Soma da Nave: " + soma)
+                            // console.log("Soma da Nave 2: " + soma)
 
                         })
                     })
             }
-            console.log("Soma da TOTAL GERAL: " + soma)
+            //console para conferir total
+            //console.log("Soma da TOTAL GERAL: " + soma)
+
+            // Mostrar valor no footer
             document.getElementById('totalStarships').innerText = `${soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
         })
 }
 
-function submitForm(e) {
-    e.preventDefault()
-
-    let inpTxtSearch = document.getElementById('inp-txt-search').value
-    let inpError = document.getElementById('error')
-
-    if (inpTxtSearch == "") {
-        inpError.style.display = 'block'
-    } else {
-        let loading = document.getElementById("loading")
-        // let curiosity = document.getElementById("curiosity")
-        loading.style.display = "block"
-        // curiosity.style.display = "none"
-
-        // Jogando o valor do SessionStorage no HTML
-        // document.getElementById('totalStarships').innerText = `${Number(sessionStorage.getItem('starshipsValue')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
-
-        limpar()
-
-
-        // consulta de dados na API - primeira promisse
-        fetch(`https://swapi.dev/api/people/?search=${inpTxtSearch}&format=json`)
-            // segunda promisse
-            .then(res => res.json())
-            .then(result => {
-                console.log(result)
-
-                loading.style.display = "none"
-                curiosity.style.display = "block"
-
-                //retorno
-                result.results.forEach(element => {
-                    inserirElemento(element)
-                });
-            })
-
-    }
+// função para limpar erros do campo inp-txt-search
+function clearError() {
+    spanError.style.display = 'none'
 }
 
-function clearError(){
-    document.getElementById('error').style.display = 'none'
-}
-
+//mudar para INGLES
 function limpar() {
 
-    // container principal para os resultados
+    // variavel que seleciona o conteudo de resultados
     let resultado = document.getElementById("result")
 
     // aqui limpa para entrar novos registros
     resultado.innerHTML = ""
 }
 
-async function buscarPlaneta(url) {
-    // Pegando o planeta natal
-    var planetaNatal = document.getElementById('planetaNatal')
-    await fetch(url)
-        .then(res => res.json())
-        .then(result => planetaNatal = result.name)
-    return planetaNatal
-}
+function submitForm(e) {
 
-async function buscarFilme(array) {
-    var namesFilms = [];
-    for (let item of array) {
-        await fetch(item)
+    //interromper comportamento padrao do form
+    e.preventDefault()
+
+    // Escopo das variáveis
+
+    // variavel que vai trazer os dados digitados no input
+    let inpTxtSearch = document.getElementById('inp-txt-search').value
+
+    // variavel que seleciona a tag com id error no html
+    let inpError = document.getElementById('error')
+
+    //validação se o campo for vazio mostrar o erro senão executar a busca
+    if (inpTxtSearch == "") {
+        inpError.style.display = 'block'
+    } else {
+
+        // enquanto está fazendo a busca mostra o loading
+        loading.style.display = "block"
+
+
+        // chamada para a funcão que limpa os resultados anteriores caso hajam buscas seguidas
+        limpar()
+
+
+        // consulta de dados na API - Fetch principal
+        fetch(`https://swapi.dev/api/people/?search=${inpTxtSearch}&format=json`)
+            // segunda promisse
             .then(res => res.json())
             .then(result => {
-                namesFilms.push(result.title)
+                console.log(result)
+
+
+                // Testando o retorno da buscar
+                if (result.results.length > 0) {
+                    result.results.forEach(element => {
+                        insertElement(element)
+                    });
+                } else {
+                    // Exibindo mensagem caso não retorne nada
+                    spanError.style.display = "block"
+                    spanError.innerText = "A busca atual não retornou nenhum resultado"
+
+                    loading.style.display = "none"
+                }
             })
+
     }
-    return namesFilms
 }
 
-async function inserirElemento(element) {
+async function insertElement(element) {
     // Buscando planeta NATAL
-    var planet = await buscarPlaneta(element.homeworld)
-    var films = await buscarFilme(element.films)
-    console.warn(films)
+    var planet = await searchPlanet(element.homeworld)
+    var films = await searchFilm(element.films)
+
     // container principal para os resultados
     let resultado = document.getElementById("result")
+
+    // Criar div
     const newElement = document.createElement('div');
+    // Adicionar class card a div
     newElement.classList.add('card');
+
+    // Substituir dados dentro da div
     newElement.innerHTML = `
         <div class="card-person">
             <span><b>Nome Completo:</b> ${element.name}</span>
@@ -134,13 +146,46 @@ async function inserirElemento(element) {
         <div class="card-film">
             <span><b>Filmes:</b></span>
             <ul>
+
                 ${films.map(film => {
+        // looping para cada link que recebe de filmes retornar os nomes de cada filme
         return `<li>${film}</li>`
     }).join('')}
             </ul>
         </div>
     `;
+    // Adiciona um card para cada pessoa que retonar da busca e coloca dentro de da div results
     resultado.append(newElement);
 }
 
+// recebe URL do card pessoas e retorna o planeta natal
+async function searchPlanet(url) {
 
+    // Pegando o planeta natal
+    var planetaNatal = document.getElementById('planetaNatal')
+    await fetch(url)
+        .then(res => res.json())
+        .then(result => planetaNatal = result.name)
+
+    //retorno da função
+    return planetaNatal
+}
+
+async function searchFilm(array) {
+    // recebe um array com as  URL's dos filmes dos cards pessoas
+    var namesFilms = [];
+    for (let item of array) {
+        await fetch(item)
+            .then(res => res.json())
+            .then(result => {
+                //Adicionar elemento na ultima posição do Array
+                namesFilms.push(result.title)
+            })
+    }
+
+    // esconde loading quando retona a busca
+    loading.style.display = "none"
+
+    //retorno da função
+    return namesFilms
+}

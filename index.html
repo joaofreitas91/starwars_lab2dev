@@ -21,10 +21,10 @@
             <img src="assets/logoSW.png" height="150px" class="title" />
             <form onsubmit="submitForm(event)">
                 <input type="text" id="inp-txt-search" placeholder="Digite um Personagem!" autocomplete="off"
-                    onfocus="clearError()" />
-                    <input type="submit" value="Pesquisar" class="inp-btn-search" />
-                </form>
-                <span id="error">O campo não pode ser vazio, por favor digite um personagem.</span>
+                    onfocus="clearError()" onkeydown="clearError()" />
+                <input type="submit" value="Pesquisar" class="inp-btn-search" />
+            </form>
+            <span id="error">O campo não pode ser vazio, por favor digite um personagem.</span>
         </div>
         <div class="content-loading">
             <img id="loading" style="display: none;" src="assets/loading.png" height="100px" />
