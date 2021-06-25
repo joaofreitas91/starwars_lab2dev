@@ -20,11 +20,24 @@
         <div class="hero">
             <img src="assets/images/logoSW.png" height="150px" class="title" />
             <form onsubmit="submitForm(event)">
-                <input type="text" id="inp-txt-search" placeholder="Digite um Personagem!" autocomplete="off"
-                    onfocus="clearError()" onkeydown="clearError()" />
-                <input type="submit" value="Pesquisar" class="inp-btn-search" />
+                <input
+                    type="text" id="inp-txt-search"
+                    placeholder="Digite um Personagem!"
+                    autocomplete="off"
+                    onfocus="clearError()"
+                    onkeydown="clearError()"
+                />
+                <button class="inp-btn-search">
+                    <!-- <i class="fas fa-search"></i> -->
+                    Pesquisar
+                </button>
+                <!-- <input
+                    type="submit"
+                    value="Pesquisar"
+                    class="inp-btn-search"
+                /> -->
             </form>
-            <span id="error">O campo não pode ser vazio, por favor digite um personagem.</span>
+            <span id="error"> O campo não pode ser vazio, por favor digite um personagem. </span>
         </div>
         <div class="content-loading">
             <img id="loading" style="display: none;" src="assets/images/loading.png" height="100px" />

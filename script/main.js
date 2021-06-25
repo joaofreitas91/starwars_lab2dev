@@ -2,7 +2,7 @@ const loading = document.getElementById("loading")
 const spanError = document.getElementById("error")
 
 
-//Alternativa a função abaixo, loading.addEventListener('click', LoadStarships());
+//Alternativa a função abaixo, loading.addEventListener("click", LoadStarships());
 
 // Referenciadndo a função LoadStarships para trazer os dados ao carregar a pagina
 window.onload = loadingStarships
@@ -12,7 +12,7 @@ window.onload = loadingStarships
 function loadingStarships() {
 
     //fetch para trazer a primeira página de naves
-    fetch('https://swapi.dev/api/starships/?format=json&page=1')
+    fetch("https://swapi.dev/api/starships/?format=json&page=1")
         .then(response => response.json())
         .then(starships => {
             var sum = 0
@@ -36,7 +36,7 @@ function loadingStarships() {
             for (let i = 2; i <= pag; i++) {
                 ////segundo fetch para trazer as demais paginas das naves
                 // ESSE FOR FEITO PARA SE CASO A API RECEBA MAIS DADOS PERCORRER AS PAGINAS
-                fetch('https://swapi.dev/api/starships/?format=json&page=' + i)
+                fetch("https://swapi.dev/api/starships/?format=json&page=" + i)
                     .then(response => response.json())
                     .then(starships => {
                         starships.results.forEach(elementStarships => {
@@ -55,13 +55,13 @@ function loadingStarships() {
             //console.log("Soma da TOTAL GERAL: " + soma)
 
             // Mostrar valor no footer
-            document.getElementById('totalStarships').innerText = `${sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+            document.getElementById("totalStarships").innerText = `${sum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
         })
 }
 
 // função para limpar erros do campo inp-txt-search
 function clearError() {
-    spanError.style.display = 'none'
+    spanError.style.display = "none"
 }
 
 function clearResults() {
@@ -81,14 +81,14 @@ function submitForm(e) {
     // Escopo das variáveis
 
     // variavel que vai trazer os dados digitados no input
-    let inpTxtSearch = document.getElementById('inp-txt-search').value
+    let inpTxtSearch = document.getElementById("inp-txt-search").value
 
     // variavel que seleciona a tag com id error no html
-    let inpError = document.getElementById('error')
+    let inpError = document.getElementById("error")
 
     //validação se o campo for vazio mostrar o erro senão executar a busca
     if (inpTxtSearch == "") {
-        inpError.style.display = 'block'
+        inpError.style.display = "block"
     } else {
 
         // enquanto está fazendo a busca mostra o loading
@@ -133,17 +133,17 @@ async function insertElement(element) {
     let result = document.getElementById("result")
 
     // Criar div
-    const newElement = document.createElement('div');
+    const newElement = document.createElement("div");
     // Adicionar class card a div
-    newElement.classList.add('card');
+    newElement.classList.add("card");
 
     // Substituir dados dentro da div
     newElement.innerHTML = `
         <div class="card-person">
             <span class="line-title-person"><b>Nome do Personagem:</b></span>
-            <span><b>Nome Completo:</b> ${element.name}</span>
-            <span><b>Altura:</b> ${element.height} cm</span>
-            <span><b>Peso:</b> ${element.mass} Kg</span>
+            <span><b>Nome:</b> ${element.name}</span>
+            <span><b>Altura:</b> ${element.height === "unknown" ? "desconhecido" : `${element.height} cm`}</span>
+            <span><b>Peso:</b> ${element.mass === "unknown" ? "desconhecido" : `${element.mass} Kg`}</span>
             <span><b>Planeta Natal:</b> ${planet}</span>
         </div>
         <div class="card-film">
@@ -152,7 +152,7 @@ async function insertElement(element) {
                 ${films.map(film => {
         // looping para cada link que recebe de filmes retornar os nomes de cada filme
         return `<li>${film}</li>`
-    }).join('')}
+    }).join("")}
             </ul>
         </div>
     `;
@@ -167,14 +167,20 @@ async function searchPlanet(url) {
     var homeWorld = ""
     await fetch(url)
         .then(res => res.json())
-        .then(result => homeWorld = result.name)
+        .then(result => {
+            if (result.name === "unknown") {
+                homeworld = "desconhecido"
+            } else {
+                homeWorld = result.name
+            }
+        })
 
     //retorno da função
     return homeWorld
 }
 
 async function searchFilm(array) {
-    // recebe um array com as  URL's dos filmes dos cards pessoas
+    // recebe um array com as  URL"s dos filmes dos cards pessoas
     var namesFilms = [];
     for (let item of array) {
         await fetch(item)
