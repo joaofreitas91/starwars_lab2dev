@@ -10,7 +10,7 @@ Star War Info é uma aplicação Front-End que foi construída para resolver um 
 
 ## Layout Sugerido
 
-![Web](https://github.com/joaofreitas91/starwars_lab2dev/blob/main/assets/Layout.png?raw=true)
+![Web](https://github.com/joaofreitas91/starwars_lab2dev/blob/main/assets/project/Layout.png?raw=true)
 
 Consumir dados da API do Star Wars: https://swapi.dev/api/
 
