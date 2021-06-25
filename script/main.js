@@ -15,15 +15,18 @@ function loadingStarships() {
     fetch('https://swapi.dev/api/starships/?format=json&page=1')
         .then(response => response.json())
         .then(starships => {
-            var soma = 0
+            var sum = 0
             // console.log("starships fetch-one ", starships)
+
             starships.results.forEach(elementStarships => {
                 let cost = elementStarships.cost_in_credits
                 if (cost == "unknown") {
                     cost = 0
                 }
                 // console.log("Custo da Nave: " + parseFloat(cost))
-                soma += parseFloat(cost)
+
+                //soma dos custos das naves
+                sum += parseFloat(cost)
                 // console.log("Soma da Nave1: " + soma)
 
 
@@ -42,7 +45,7 @@ function loadingStarships() {
                                 cost = 0
                             }
                             // console.log("Custo da Nave: " + parseFloat(cost))
-                            soma += parseFloat(cost)
+                            sum += parseFloat(cost)
                             // console.log("Soma da Nave 2: " + soma)
 
                         })
@@ -52,7 +55,7 @@ function loadingStarships() {
             //console.log("Soma da TOTAL GERAL: " + soma)
 
             // Mostrar valor no footer
-            document.getElementById('totalStarships').innerText = `${soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+            document.getElementById('totalStarships').innerText = `${sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
         })
 }
 
@@ -61,14 +64,13 @@ function clearError() {
     spanError.style.display = 'none'
 }
 
-//mudar para INGLES
-function limpar() {
+function clearResults() {
 
     // variavel que seleciona o conteudo de resultados
-    let resultado = document.getElementById("result")
+    let result = document.getElementById("result")
 
     // aqui limpa para entrar novos registros
-    resultado.innerHTML = ""
+    result.innerHTML = ""
 }
 
 function submitForm(e) {
@@ -94,7 +96,7 @@ function submitForm(e) {
 
 
         // chamada para a funcão que limpa os resultados anteriores caso hajam buscas seguidas
-        limpar()
+        clearResults()
 
 
         // consulta de dados na API - Fetch principal
@@ -128,7 +130,7 @@ async function insertElement(element) {
     var films = await searchFilm(element.films)
 
     // container principal para os resultados
-    let resultado = document.getElementById("result")
+    let result = document.getElementById("result")
 
     // Criar div
     const newElement = document.createElement('div');
@@ -138,15 +140,15 @@ async function insertElement(element) {
     // Substituir dados dentro da div
     newElement.innerHTML = `
         <div class="card-person">
+            <span class="line-title-person"><b>Nome do Maluco:</b></span>
             <span><b>Nome Completo:</b> ${element.name}</span>
             <span><b>Altura:</b> ${element.height} cm</span>
             <span><b>Peso:</b> ${element.mass} Kg</span>
             <span><b>Planeta Natal:</b> ${planet}</span>
         </div>
         <div class="card-film">
-            <span><b>Filmes:</b></span>
+            <span class="line-title-film"><b>Filmes:</b></span>
             <ul>
-
                 ${films.map(film => {
         // looping para cada link que recebe de filmes retornar os nomes de cada filme
         return `<li>${film}</li>`
@@ -155,20 +157,20 @@ async function insertElement(element) {
         </div>
     `;
     // Adiciona um card para cada pessoa que retonar da busca e coloca dentro de da div results
-    resultado.append(newElement);
+    result.append(newElement);
 }
 
 // recebe URL do card pessoas e retorna o planeta natal
 async function searchPlanet(url) {
 
     // Pegando o planeta natal
-    var planetaNatal = document.getElementById('planetaNatal')
+    // var planetaNatal = document.getElementById('planetaNatal')
     await fetch(url)
         .then(res => res.json())
-        .then(result => planetaNatal = result.name)
+        .then(result => homeWorld = result.name)
 
     //retorno da função
-    return planetaNatal
+    return homeWorld
 }
 
 async function searchFilm(array) {

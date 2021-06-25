@@ -105,6 +105,15 @@ body {
     color: #fab90a;
 }
 
+.line-title-person{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 3px solid #fab90a;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
 .card-film {
     display: flex;
     flex-direction: column;
@@ -116,7 +125,16 @@ body {
     height: 100%;
     background-color: #a39f9f;
     color: #1a1919;
-    ;
+
+}
+
+.line-title-film{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 3px solid #1a1919;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 footer {
